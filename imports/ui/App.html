@@ -1,0 +1,66 @@
+<body>
+	{{> mainContainer}}
+</body>
+
+<template name="mainContainer">
+	{{> title}}
+	{{#if isLoading}}
+	<div>loading...</div>
+	{{/if}}
+	{{> thoughtList}}
+	{{> stemForm}}
+</template>
+
+<template name="title">
+	<div>
+		<header>
+			<h1> Welcome to Weedpiphany!</h1>
+			<h3> Share and grow your mind gunk.</h3>
+		</header>
+	</div>
+</template>
+
+<template name="thoughtList">
+	<div>
+		<ul>
+			{{#each thoughts}}
+			{{> thought}}
+			{{/each}}
+		</ul>
+	</div>
+</template>
+
+<template name="thought">
+	<li class="root-thought">
+		{{text}} [{{createdAt}}] by "{{userId}}" ({{userName}})
+		{{#if thoughtExpanded}}
+			<ul>
+				<li>Expandition</li>
+				{{#if isUserLogged}}
+					<div>
+						<form class="add-form">
+							<input type="text" name="text" placeholder={{_id}} />
+							<button type="submit">Reply to thought</button>
+						</form>
+					</div>
+				{{/if}}
+			</ul>
+		{{/if}}
+	</li>
+</template>
+
+<template name="stemForm">
+	{{#if isUserLogged}}
+	<div class="user">
+		Welcome {{getUser.username}}
+	</div>
+	<div>
+		<form class="stem-form">
+			<input type="text" name="text" placeholder="Type to add new thought" />
+			<button type="submit">Add Thought</button>
+		</form>
+	</div>
+	{{else}}
+	{{> login }}
+	{{/if}}
+</template>
