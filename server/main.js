@@ -13,9 +13,11 @@ const SEED_USERNAME2 = 'aihplodnal';
 
 const insertThought = (data) => {
 	if ( data.text != undefined ) {
+		Log.debug("Inserting new thought");
 		Log.debug("User = " + JSON.stringify(data.user));
 		name = Meteor.users.findOne({_id: data.user._id}).username;
 		Log.debug("Username = " + name);
+		Log.debug("origin = " + data.origin);
 		if ( name != undefined ) {
 			ThoughtsCollection.insert({
 				text: data.text,
@@ -48,22 +50,23 @@ Meteor.startup(() => {
 			username: SEED_USERNAME2,
 			password: SEED_PASSWORD,
 		});
+	} else {
+		Log.info("Dummy user accounts already created.")
 	}
-	Log.info("Dummy user accounts already created.")
 
-	Log.info("Deleting DB items: " + ThoughtsCollection.find().count());
-	ThoughtsCollection.remove({});
+	//Log.info("Deleting DB items: " + ThoughtsCollection.find().count());
+	//ThoughtsCollection.remove({});
 	Log.info("DB items: " + ThoughtsCollection.find().count());
-	if (ThoughtsCollection.find().count() === 0) {
-		const user = Accounts.findUserByUsername(SEED_USERNAME);
-		
-		Log.info("Populating DB with placeholder data.");
-		[
-			{ text: "Most cats have legs.", user: user },
-			{ text: "Some dogs have ears.", user: user },
-			{ text: "Many legs have toes.", user: user },
-			{ text: "Few bears have plants.", user: user }
-		].forEach(insertThought)
-	}
-	Log.info("DB items: " + ThoughtsCollection.find().count());
+	//if (ThoughtsCollection.find().count() === 0) {
+	//	const user = Accounts.findUserByUsername(SEED_USERNAME);
+	//	
+	//	Log.info("Populating DB with placeholder data.");
+	//	[
+	//		{ text: "Most cats have legs.", user: user },
+	//		{ text: "Some dogs have ears.", user: user },
+	//		{ text: "Many legs have toes.", user: user },
+	//		{ text: "Few bears have plants.", user: user }
+	//	].forEach(insertThought)
+	//}
+	//Log.info("DB items: " + ThoughtsCollection.find().count());
 });

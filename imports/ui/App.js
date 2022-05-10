@@ -36,28 +36,22 @@ Template.thoughtList.helpers({
 
 Template.thought.onCreated( function thoughtOnCreated() {
 	this.showChildren = new ReactiveVar( false );
-	Log.info("THought created!? -> " + this.showChildren);
 });
 
 Template.thought.helpers({
 	thoughtExpanded() {
-		Log.info("Expanded!? -> " + Template.instance().showChildren.get());
 		result = Template.instance().showChildren.get();
 		return result;
 	},
 	isUserLogged() {
-		Log.info("Hey");
 		return isUserLogged();
 	}
 });
 
 Template.thought.events({
-	'click .root-thought'() {
+	'click .list-stem'() {
 		Template.instance().showChildren.set(!Template.instance().showChildren.get());
 		result = Template.instance().showChildren.get();
-		Log.info("Expand!? -> " + result);
-		Log.info("I clicked a thought:" + this._id);
-		Log.info("This is where I should expand the child thoughts and add a form.");
 	},
 	"submit .add-form"(event) {
 		event.preventDefault();
@@ -65,7 +59,7 @@ Template.thought.events({
 		const target = event.target;
 		const text = target.text.value;
 
-		Log.info("This.id = " + this._id);
+		Log.info("Inserting leaf. Root = " + this._id);
 
 		Meteor.call('thoughts.insert', text, this._id);
 
@@ -97,3 +91,31 @@ Template.stemForm.events({
 		target.text.value = '';
 	}
 })
+
+Template.leavesList.helpers({
+	leaves(origin) {
+		Log.info("This is the origin: " + this.origin);
+		return ThoughtsCollection.find({origin: this.origin}, { sort: { createdAt: -1 } });
+	},
+});
+
+Template.leavesList.onCreated( function leavesListOnCreated() {
+	var dataContext = Template.currentData()
+	Log.info("This is the thingy: " + dataContext.origin);
+	//const handler = Meteor.subscribe('leaves', origin);
+	//Tracker.autorun(() => {
+	//	this.state.set(IS_LOADING_STRING, !handler.ready());
+	//})
+	Meteor.subscribe('leaves', dataContext.origin);
+});
+
+Template.leavesList.helpers({
+	leaves() {
+		var dataContext = Template.currentData()
+		Log.info("This nern: " + dataContext.origin);
+		result = ThoughtsCollection.find({origin: origin}, { sort: { createdAt: -1 } });
+		Log.info("Count: " + result.count());
+		//result = ThoughtsCollection.find({origin: origin}, { sort: { createdAt: -1 } });
+		//return result;
+	},
+});

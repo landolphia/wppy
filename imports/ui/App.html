@@ -5,7 +5,7 @@
 <template name="mainContainer">
 	{{> title}}
 	{{#if isLoading}}
-	<div>loading...</div>
+		<div>loading content...</div>
 	{{/if}}
 	{{> thoughtList}}
 	{{> stemForm}}
@@ -24,7 +24,7 @@
 	<div>
 		<ul>
 			{{#each thoughts}}
-			{{> thought}}
+				{{> thought}}
 			{{/each}}
 		</ul>
 	</div>
@@ -32,18 +32,20 @@
 
 <template name="thought">
 	<li class="root-thought">
-		{{text}} [{{createdAt}}] by "{{userId}}" ({{userName}})
+		<span class="list-stem">
+			{{text}} [{{createdAt}}] by "{{userId}}" ({{userName}})
+		</span>
 		{{#if thoughtExpanded}}
 			<ul>
-				<li>Expandition</li>
 				{{#if isUserLogged}}
-					<div>
+					<li>
 						<form class="add-form">
 							<input type="text" name="text" placeholder={{_id}} />
-							<button type="submit">Reply to thought</button>
+							<button class="add_leaf" type="submit">Reply to thought</button>
 						</form>
-					</div>
+					</li>
 				{{/if}}
+				{{> leavesList origin=this._id}}
 			</ul>
 		{{/if}}
 	</li>
@@ -63,4 +65,20 @@
 	{{else}}
 	{{> login }}
 	{{/if}}
+</template>
+
+<template name="leavesList">
+	<li class="leaf-thought"> ORIGIN: {{origin}}</li>
+	{{#each leaves}}
+		<span> Heyhey </span>
+		{{> leaf}}
+	{{/each}}
+</template>
+
+<template name="leaf">
+	<li>
+		<div class="list-leaf" style="font-weight: bold;color:#00CC22; background-color:#EDEDED">
+			LEAF: {{text}} [{{createdAt}}] by "{{userId}}" ({{userName}}) from #{{origin}}
+		</div>
+	</li>
 </template>
