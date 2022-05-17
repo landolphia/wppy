@@ -9,7 +9,7 @@ import '/imports/api/ThoughtsPublications';
 
 const SEED_USERNAME = 'landolphia';
 const SEED_PASSWORD = 'password';
-const SEED_USERNAME2 = 'aihplodnal';
+const SEED_USERNAME2 = 'jenanoelle';
 
 const insertThought = (data) => {
 	if ( data.text != undefined ) {
@@ -54,8 +54,8 @@ Meteor.startup(() => {
 		Log.info("Dummy user accounts already created.")
 	}
 
-	//Log.info("Deleting DB items: " + ThoughtsCollection.find().count());
-	//ThoughtsCollection.remove({});
+	Log.info("Deleting DB items: " + ThoughtsCollection.find().count());
+	ThoughtsCollection.remove({});
 	Log.info("DB items: " + ThoughtsCollection.find().count());
 	//if (ThoughtsCollection.find().count() === 0) {
 	//	const user = Accounts.findUserByUsername(SEED_USERNAME);

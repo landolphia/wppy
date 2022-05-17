@@ -11,7 +11,7 @@ Meteor.methods({
 		}
 
 		name = Meteor.users.findOne({_id: this.userId}).username;
-		Log.debug(name + "is inserting a thought: " + text + " ||| " + origin);
+		Log.debug(name + " is inserting a thought: " + text + " ||| " + origin);
 
 		ThoughtsCollection.insert({
 			text: text,

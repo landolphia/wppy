@@ -33,10 +33,11 @@
 <template name="thought">
 	<li class="root-thought">
 		<span class="list-stem">
-			{{text}} [{{createdAt}}] by "{{userId}}" ({{userName}})
+			{{text}} [{{createdAt}}] by "{{userId}}" ({{userName}})<sub>{{origin}}</sub>
 		</span>
 		{{#if thoughtExpanded}}
-			<ul>
+			<ul class="leaf-{{this._id}}">
+				{{> leavesList origin=this._id}}
 				{{#if isUserLogged}}
 					<li>
 						<form class="add-form">
@@ -45,7 +46,6 @@
 						</form>
 					</li>
 				{{/if}}
-				{{> leavesList origin=this._id}}
 			</ul>
 		{{/if}}
 	</li>
@@ -68,11 +68,11 @@
 </template>
 
 <template name="leavesList">
-	<li class="leaf-thought"> ORIGIN: {{origin}}</li>
-	{{#each leaves}}
-		<span> Heyhey </span>
-		{{> leaf}}
-	{{/each}}
+	<li class="leaf-thought">
+		{{#each leaves}}
+			{{> leaf}}
+		{{/each}}
+	</li>
 </template>
 
 <template name="leaf">
